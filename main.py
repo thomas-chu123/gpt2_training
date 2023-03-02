@@ -16,9 +16,10 @@ def gpt2_pt_finetune():
     # Initialize the tokenizer and model
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     model = GPT2LMHeadModel.from_pretrained('gpt2')
+    tokenizer.pad_token = tokenizer.eos_token
 
     # Fine-tune the model on the custom programming language data
-    train_data = tokenizer(code_text, return_tensors='pt', truncation=True)
+    train_data = tokenizer(code_text, return_tensors='pt', truncation=True, padding=True)
     training_args = TrainingArguments(
         output_dir='./results',
         num_train_epochs=5,
@@ -50,11 +51,7 @@ def gpt2_pt_finetune():
 
 
 # create transformer function to convert the data into the format that the model expects
-def convert_to_transformer_inputs(
-    tokenizer,
-    df,
-    text_column,
-    max_len=512):
+def convert_to_transformer_inputs(tokenizer, df, text_column, max_len=512):
     """Convert dataframe column to lists of input ids, attention masks and labels"""
     input_ids = []
     attention_masks = []
@@ -84,16 +81,19 @@ def gpt2_tf_finetune():
 
     text_list = text.split("\n")
 
-    input_ids = tokenizer.encode(text_list, return_tensors="tf", max_length=10, truncation=True)
+    input_ids = []
+    for text_line in text_list:
+        input_ids.append(tokenizer.encode(text_line, return_tensors="tf", max_length=10, truncation=True))
+
     #input_ids = tokenizer(text_list, return_tensors="tf")
     model.compile(loss=lambda y_true, y_pred: y_pred, optimizer="adam")
     model.fit(input_ids, input_ids, epochs=5)
 
-    model.save_pretrained("acts_model")
-    tokenizer.save_pretrained("acts_model")
+    model.save_pretrained("./acts_model")
+    tokenizer.save_pretrained("./acts_model")
 
-    tokenizer = GPT2Tokenizer.from_pretrained("acts_model")
-    model = TFGPT2LMHeadModel.from_pretrained("acts_model")
+    tokenizer = GPT2Tokenizer.from_pretrained("./acts_model")
+    model = TFGPT2LMHeadModel.from_pretrained("./acts_model")
 
     input_text = "login web page and verify the login is successful"
     input_ids = tokenizer.encode(input_text, return_tensors="tf")
@@ -103,5 +103,5 @@ def gpt2_tf_finetune():
 
 
 if __name__ == '__main__':
-    gpt2_pt_finetune()
-    #gpt2_tf_finetune()
+    # gpt2_pt_finetune()
+    gpt2_tf_finetune()
