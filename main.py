@@ -104,7 +104,7 @@ def start_training():
         # callbacks = [push_to_hub_callback, tensorboard_callback]
         # Fit with callbacks
 
-        model.fit(train_set, validation_data=validation_set, epochs=1, workers=100, use_multiprocessing=True, callbacks=tensorboard_callback)
+        model.fit(train_set, validation_data=validation_set, epochs=1, workers=9, use_multiprocessing=True, callbacks=tensorboard_callback)
         # model.fit(train_set, validation_data=validation_set, epochs=20, workers=9, use_multiprocessing=True)
         eval_loss = model.evaluate(validation_set)
         model.save_pretrained("gpt2_finetuned")
