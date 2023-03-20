@@ -8,7 +8,7 @@ import pandas as pd
 
 def gpt2_pt_finetune():
     # Load the custom programming language data
-    with open('data.dlf', 'r') as f:
+    with open('source/data.dlf', 'r') as f:
         code_text = f.read()
 
     code_text = code_text.split('\n')
@@ -76,7 +76,7 @@ def gpt2_tf_finetune():
     model = TFGPT2LMHeadModel.from_pretrained("gpt2")
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
-    with open("data.dlf", "r", encoding="utf-8") as f:
+    with open("source/data.dlf", "r", encoding="utf-8") as f:
         text = f.read()
 
     text_list = text.split("\n")
