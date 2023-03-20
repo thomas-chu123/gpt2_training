@@ -9,14 +9,18 @@ def main():
 
     model_name = "distilgpt2"
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = TFGPT2LMHeadModel.from_pretrained("gpt2").to(device)
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2").to(device)
+    model = TFGPT2LMHeadModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    #
+    def case_name_tokenize(sets):
+        return tokenizer(sets["case_name"], padding="max_length", truncation=True)
+    case_name_ids = train_test_dataset.map(case_name_tokenize, batched=True)
 
-    input_ids = tokenizer.map()# model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
+    def case_script_tokenize(sets):
+        return tokenizer(sets["case_script"], padding="max_length", truncation=True)
+    case_script_ids = train_test_dataset.map(case_script_tokenize, batched=True)
 
-    model.fit(input_ids, input_ids, epochs=5)
+    model.fit(case_name_ids, case_script_ids, epochs=5)
 
 
 
