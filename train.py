@@ -1,5 +1,5 @@
 from datasets import load_dataset
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, AutoModelForCausalLM, AutoModelForQuestionAnswering
 from transformers import GPT2Tokenizer, TFGPT2LMHeadModel, GPT2Model
 from transformers import Trainer, TrainingArguments
 from transformers import DefaultDataCollator
@@ -20,7 +20,7 @@ def main():
 
     # model = TFGPT2LMHeadModel.from_pretrained(model_name)
     # tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    model = AutoModelForQuestionAnswering.from_pretrained(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token
 
@@ -60,7 +60,7 @@ def main():
         data_collator=data_collator
     )
     trainer.train()
-    trainer.save_model(./acts_model)
+    trainer.save_model("acts_model")
 
 if __name__ == '__main__':
     main()
