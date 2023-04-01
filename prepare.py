@@ -10,7 +10,7 @@ def main():
     with open("source/Function_V6.2.dlf","r",encoding="utf-8") as f:
         text = f.read()
     text_list = text.split("\n")
-    script_string = {'case_name': '', 'case_script': ''}
+    script_string = {'question': '', 'context': ''}
     for text_line in text_list:
         if text_line.startswith("# "):
             # for next new script line
@@ -20,19 +20,19 @@ def main():
                 script_list.append(script_string)
                 count = count + 1
                 print(count, script_string)
-                script_string = {'case_name': '', 'case_script': ''}
-                script_string["case_name"] = text_line.rstrip().replace('# ', '')
+                script_string = {'question': '', 'context': ''}
+                script_string["question"] = text_line.rstrip().replace('# ', '')
             # for new start test item
             elif start_flag == False and end_flag == False:
                 start_flag = True
                 end_flag = False
-                script_string = {'case_name': '', 'case_script': ''}
-                script_string["case_name"] = text_line.rstrip().replace('# ', '')
+                script_string = {'question': '', 'context': ''}
+                script_string["question"] = text_line.rstrip().replace('# ', '')
         elif text_line=='':
             continue
         else:
             if start_flag==True and end_flag==False:
-                script_string["case_script"] = script_string["case_script"] + text_line.rstrip().lstrip() + ' [SEP] '
+                script_string["context"] = script_string["context"] + text_line.rstrip().lstrip() + '\n'
 
     with open("source/train.json","w",encoding="utf-8") as f:
         f.write(json.dumps(script_list))

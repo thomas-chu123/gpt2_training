@@ -1,0 +1,38 @@
+{
+  "name": "acts_ai",
+  "displayName": "acts_ai",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.58.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./build/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "acts_ai.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "acts_ai.askQuestion",
+        "title": "Ask Question"
+      }
+    ],
+    "configuration": {
+      "title": "acts_ai",
+      "properties": {}
+    },
+    "keybindings": [
+      {
+        "command": "acts_ai.askQuestion",
+        "key": "ALT+5"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onCommand:acts_ai.helloWorld",
+    "onCommand:acts_ai.askQuestion"
+  ]
+}
