@@ -1,11 +1,11 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-prompt = "login gui and generate packet and ping internet"
+prompt = "measure the throughput"
 default_tokenizer = "distilgpt2"
 # custom_data = "E:\\Python_Program\\gpt2_training\\acts_model"
-custom_model = "acts_model"
+custom_model = "tp_model"
 
-tokenizer = AutoTokenizer.from_pretrained(custom_model)
+tokenizer = AutoTokenizer.from_pretrained(default_tokenizer)
 inputs = tokenizer(prompt, return_tensors="pt")
 
 model = AutoModelForCausalLM.from_pretrained(custom_model)
@@ -15,4 +15,4 @@ text = tokenizer.batch_decode(outputs, skip_special_tokens=True)
 for line in text:
     print(line)
 
-print(eval)
+# print(eval)
