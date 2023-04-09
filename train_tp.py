@@ -50,7 +50,7 @@ def main():
     training_args = TrainingArguments(
         output_dir='./results',
         overwrite_output_dir=True,
-        num_train_epochs=3,
+        num_train_epochs=32,
         learning_rate=2e-5,
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
